@@ -52,7 +52,7 @@ highlight:
   wrap: true
   hljs: false
 prismjs:
-  enable: false
+  enable: true
   preprocess: true
   line_number: true
   tab_replace: ''
@@ -105,5 +105,5 @@ theme: yelog
 deploy:
   type: git
   repo: https://github.com/jixxiong/blogs.git
-  branch: main
+  branch: gh-pages
 
