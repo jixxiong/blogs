@@ -15,7 +15,7 @@ jobs:
       # 将源码clone到运行环境中
       - uses: actions/checkout@v2
         with:
-            submodules: 'false' # 这里因为使用了子模块，设置为true
+            submodules: 'true' # 这里因为使用了子模块，设置为true
       # 配置Node.js环境
       - name: Use Node.js 20.x
         uses: actions/setup-node@v2
