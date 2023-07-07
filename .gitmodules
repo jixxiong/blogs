@@ -1,0 +1,3 @@
+[submodule "themes/yelog"]
+	path = themes/yelog
+	url = git@github.com:jixxiong/my-hexo-theme-3-hexo.git
