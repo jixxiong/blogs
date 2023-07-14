@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>A Survey of Indexing Techniques for Scalable Record Linkage and Deduplication | Jixiang Xiong&#39;s Blogs</title>
+  <meta name="keywords" content=" Indexing Techniques , Record Linkage , Deduplication , Paper ">
+  <meta name="description" content="A Survey of Indexing Techniques for Scalable Record Linkage and Deduplication | Jixiang Xiong&#39;s Blogs">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication.pptx SettingsRecord Linkage and Deduplication数据匹配(Record Linkage)是指将不同的数据集里相同或相近的东西进行配对。 数据去重(Record Deduplication)是指将一个数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A Survey of Indexing Techniques for Scalable Record Linkage and Deduplication">
+<meta property="og:url" content="https://jixxiong.github.io/blogs/2023/07/10/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/index.html">
+<meta property="og:site_name" content="Jixiang Xiong&#39;s Blogs">
+<meta property="og:description" content="A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication.pptx SettingsRecord Linkage and Deduplication数据匹配(Record Linkage)是指将不同的数据集里相同或相近的东西进行配对。 数据去重(Record Deduplication)是指将一个数据">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://jixxiong.github.io/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/pipline-of-record-linkage.png">
+<meta property="og:image" content="https://jixxiong.github.io/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.2.png">
+<meta property="og:image" content="https://jixxiong.github.io/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.3.png">
+<meta property="og:image" content="https://jixxiong.github.io/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.4.png">
+<meta property="og:image" content="https://jixxiong.github.io/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.5.png">
+<meta property="og:image" content="https://jixxiong.github.io/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.7.png">
+<meta property="og:image" content="https://jixxiong.github.io/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.8.png">
+<meta property="og:image" content="https://jixxiong.github.io/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/string-map.png">
+<meta property="og:image" content="https://jixxiong.github.io/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/how-to-choose-demision-d.png">
+<meta property="article:published_time" content="2023-07-10T13:46:54.000Z">
+<meta property="article:modified_time" content="2023-07-14T01:26:54.993Z">
+<meta property="article:author" content="Jixiang Xiong">
+<meta property="article:tag" content="Indexing Techniques">
+<meta property="article:tag" content="Record Linkage">
+<meta property="article:tag" content="Deduplication">
+<meta property="article:tag" content="Paper">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jixxiong.github.io/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/pipline-of-record-linkage.png">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/blogs/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/blogs/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/blogs/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/blogs/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="/blogs">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/blogs/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/blogs/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>Jixiang Xiong</span>
+</div>
+
+<div class="icon">
+    
+        
+    
+        
+            <a title="github"
+               href="https://github.com/jixxiong"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            <a title="email"
+               href="mailto:xiongjx751@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="qq"
+               href="http://wpa.qq.com/msgrd?v=3&uin=1442071828&site=qq&menu=yes"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-qq"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+    
+</div>
+
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="All">All
+            
+                <small>(2)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                
+    <li>
+        <div data-rel="CMU15445">
+            
+            CMU15445
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Paper">
+            
+            Paper
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+        <a 
+                                           class="friends">Friends</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="2">
+<input type="hidden" id="yelog_site_word_count" value="1.8k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://xiongjx.cn/">Jixiang Xiong</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Database</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Deduplication</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Indexing Techniques</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Paper</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Record Linkage</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="All Paper "
+           href="/blogs/2023/07/10/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/"
+           data-tag="Indexing Techniques,Record Linkage,Deduplication,Paper"
+           data-author="" >
+            <span class="post-title" title="A Survey of Indexing Techniques for Scalable Record Linkage and Deduplication">A Survey of Indexing Techniques for Scalable Record Linkage and Deduplication</span>
+            <span class="post-date" title="2023-07-10 21:46:54">2023/07/10</span>
+        </a>
+        
+        
+        <a  class="All CMU15445 "
+           href="/blogs/2023/07/07/CMU15445-p0-introduction/"
+           data-tag="Database"
+           data-author="" >
+            <span class="post-title" title="[CMU15445] p0 introduction to cmu15445">[CMU15445] p0 introduction to cmu15445</span>
+            <span class="post-date" title="2023-07-07 10:15:44">2023/07/07</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">A Survey of Indexing Techniques for Scalable Record Linkage and Deduplication</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="Paper">Paper</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">Indexing Techniques</a>
+            
+            <a class="color5">Record Linkage</a>
+            
+            <a class="color4">Deduplication</a>
+            
+            <a class="color1">Paper</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2023-07-14 09:26:54'>2023-07-10 21:46</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>Count:1.8k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Settings"><span class="toc-text">Settings</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Record-Linkage-and-Deduplication"><span class="toc-text">Record Linkage and Deduplication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pipline-of-Record-Linkage"><span class="toc-text">Pipline of Record Linkage</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Methods"><span class="toc-text">Methods</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Traditional-Blocking"><span class="toc-text">1 Traditional Blocking</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Sorted-Neighborhood-Indexing"><span class="toc-text">2 Sorted Neighborhood Indexing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Sorted-Array-Based-Approach"><span class="toc-text">2.1 Sorted Array-Based Approach</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Inverted-Index-Based-Approach"><span class="toc-text">2.2 Inverted Index-Based Approach</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-Adaptive-Sorted-Neighborhood-Approach"><span class="toc-text">2.3 Adaptive Sorted Neighborhood Approach</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Q-Gram-Based-Indexing"><span class="toc-text">3 Q-Gram-Based Indexing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Suffix-Array-Based-Indexing"><span class="toc-text">4. Suffix Array-Based Indexing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-Robust-Suffix-Array-Based-Indexing"><span class="toc-text">4.1 Robust Suffix Array-Based Indexing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Canopy-Clustering"><span class="toc-text">5. Canopy Clustering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-Threshold-Based-Approach"><span class="toc-text">5.1 Threshold-Based Approach</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-Threshold-Based-Approach-1"><span class="toc-text">5.1 Threshold-Based Approach</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-String-Map-Based-Indexing"><span class="toc-text">6. String-Map-Based Indexing</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Experiments"><span class="toc-text">Experiments</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication.pptx">A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication.pptx</a></p>
+<h2 id="Settings"><a href="#Settings" class="headerlink" title="Settings"></a>Settings</h2><h3 id="Record-Linkage-and-Deduplication"><a href="#Record-Linkage-and-Deduplication" class="headerlink" title="Record Linkage and Deduplication"></a>Record Linkage and Deduplication</h3><p>数据匹配(Record Linkage)是指将不同的数据集里相同或相近的东西进行配对。</p>
+<p>数据去重(Record Deduplication)是指将一个数据集里相同或相近的东西进行配对以去重。</p>
+<p>Record Linkage 在 Statistical agencies、fraud and crime detection 等领域下都可以用到。</p>
+<h3 id="Pipline-of-Record-Linkage"><a href="#Pipline-of-Record-Linkage" class="headerlink" title="Pipline of Record Linkage"></a>Pipline of Record Linkage</h3><p><img src="/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/pipline-of-record-linkage.png" alt="Pipline of Record Linkage"></p>
+<p>step 1. Pre-process: Data Cleaning and Standardization<br>处理脏数据、噪声、格式不一致，消除编码格式等的差别</p>
+<p>step 2. Indexing </p>
+<p>主要目标：让候选对尽可能少，同时还要尽量保留 matches 并且尽量减少 non-matches。(要兼顾时间消耗和匹配的质量)</p>
+<p>本文的主要内容是讨论 6 种构建索引的方法及其变种，并进行分析和对比和实验的验证。</p>
+<p>一般步骤：</p>
+<ul>
+<li>Build</li>
+</ul>
+<p>构建索引，可以是使用类似值域分块的方法，将相似的记录聚成 block。</p>
+<ul>
+<li>Retrieve</li>
+</ul>
+<p>生成候选对，可以是在每个块内，分别用块内的记录生成候选对。</p>
+<!-- 对姓名和地址使用字符串模糊匹配比较方法；对于包含日期、年龄和数值等数据的字段使用特别的比较方法；一般会以多个字段的聚合作为主键。 -->
+<p>step 3. Record Pair Comparison<br>对候选记录对进行分类，分成 matches, non-matches, possible matches 三类</p>
+<p>step 4. Post-process: Evaluation<br>评估数据匹配的质量和复杂度。</p>
+<h2 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h2><h3 id="1-Traditional-Blocking"><a href="#1-Traditional-Blocking" class="headerlink" title="1 Traditional Blocking"></a>1 Traditional Blocking</h3><p>思想：</p>
+<p>将相似的记录聚成一个 block，并使用倒排索引来组织记录。</p>
+<p>例如对于姓名字段，可以根据发音 (Soundex， NYSII or Double-Metaphone) 来分块。</p>
+<p>生成候选对的方法：如果是 Record Linkage 任务，那分别在每个块内部生成候选对，每个块内任选两个属于不同数据集的记录都是候选对。Record Deduplication 类似。</p>
+<p><img src="/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.2.png" alt="Traditional Blocking"></p>
+<p>分析：</p>
+<p>Traditional Blocking 的复杂度基本上由最大的那个 block 所决定。因此对 Block Key Value 的定义比较敏感。不同的 BKV 定义的方式会影响 block 内记录数量的分布，进而影响该算法的表现。(解决方法：选择合适的 BKV 定义方法。)</p>
+<h3 id="2-Sorted-Neighborhood-Indexing"><a href="#2-Sorted-Neighborhood-Indexing" class="headerlink" title="2 Sorted Neighborhood Indexing"></a>2 Sorted Neighborhood Indexing</h3><p>思想：将所有的记录按照 BKV 排序，然后用一个滑动窗口框住若干个连续的记录，对窗口内的记录生成候选对，然后移动窗口。</p>
+<p>本文主要介绍了两种 Sorted Neighborhood Indexing 的实现方法，分别是 Sorted Array-Based Approach 和 Inverted Index-Based Approach。</p>
+<h3 id="2-1-Sorted-Array-Based-Approach"><a href="#2-1-Sorted-Array-Based-Approach" class="headerlink" title="2.1 Sorted Array-Based Approach"></a>2.1 Sorted Array-Based Approach</h3><p>思想：Sorted Neighborhood Indexing 的一种方式，将 BKV 按照字典序排序，然后用一个大小为 w 的窗口去扫，每次往后移动 1 个记录。</p>
+<p><img src="/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.3.png" alt="Sorted Array-Based Approach"></p>
+<p>分析：</p>
+<ul>
+<li>如果窗口选得比较小，而相同 BKV 的记录很多，可能导致有的 matches 不会生成候选对。(解决办法：使用多个属性作为生成 BKV 的依据，这样可以有效避免某个 BKV 记录过多)</li>
+<li>由于是根据字典序排序的，会对 BKV 的前几个字母比较敏感。例如 “Christina” 和 “Kristina” 在排序后距离会比较远。(解决方法：多用几种 BKV 的定义方法。)</li>
+</ul>
+<h3 id="2-2-Inverted-Index-Based-Approach"><a href="#2-2-Inverted-Index-Based-Approach" class="headerlink" title="2.2 Inverted Index-Based Approach"></a>2.2 Inverted Index-Based Approach</h3><p>思想：和 Traditional Blocking 类似，先根据 BKV 构建倒排索引。然后使用窗口框住 w 个 BKV，对这些 BKV 对应的记录生成候选对。</p>
+<p><img src="/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.4.png" alt="Inverted Index-Based Approach"></p>
+<p>分析：</p>
+<ul>
+<li>和 Traditional Blocking 相同，最大的 block 会决定算法的复杂度。</li>
+<li>和 Sorted Array-Based Approach 类似，对 BKV 的前几个字母比较敏感。</li>
+</ul>
+<h3 id="2-3-Adaptive-Sorted-Neighborhood-Approach"><a href="#2-3-Adaptive-Sorted-Neighborhood-Approach" class="headerlink" title="2.3 Adaptive Sorted Neighborhood Approach"></a>2.3 Adaptive Sorted Neighborhood Approach</h3><p>思想：不固定窗口的大小，使用合适字符串相似度计算方法，动态确定窗口的大小。</p>
+<p>分析：理论分析很困难，所以讨论和使用的较少。</p>
+<h3 id="3-Q-Gram-Based-Indexing"><a href="#3-Q-Gram-Based-Indexing" class="headerlink" title="3 Q-Gram-Based Indexing"></a>3 Q-Gram-Based Indexing</h3><p>目标：不仅是对 BKV 相同的记录生成候选对，也对 BKV 相似的记录生成。</p>
+<p>思想：对每个 BKV，计算它的所有 q-gram (长度为 q 的子串)，然后给定一个阈值 $t\ (t\le 1)$ ，对于所有子串数至少 $l=max(1,\lfloor k\times t\rfloor)$ 的子串组合，将它们按原来的顺序排列形成一个新的 key ，并将这些记录插入到这些 key 对应的 block 里。</p>
+<p><img src="/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.5.png" alt="Q-Gram-Based Indexing"></p>
+<p>分析：</p>
+<ul>
+<li>正确性高，比前两种方法生成的候选对的数量都多。</li>
+<li>但是复杂度更高。</li>
+</ul>
+<h3 id="4-Suffix-Array-Based-Indexing"><a href="#4-Suffix-Array-Based-Indexing" class="headerlink" title="4. Suffix Array-Based Indexing"></a>4. Suffix Array-Based Indexing</h3><p>思想：和 Q-Gram-Based Indexing 类似，但是新的 key 是 BKV 的后缀。</p>
+<p><img src="/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.7.png" alt="Suffix Array-Based Indexing"></p>
+<p>分析：</p>
+<ul>
+<li>对 BKV 的后缀比较敏感。(解决方法：用子串作为 key。)</li>
+</ul>
+<h3 id="4-1-Robust-Suffix-Array-Based-Indexing"><a href="#4-1-Robust-Suffix-Array-Based-Indexing" class="headerlink" title="4.1 Robust Suffix Array-Based Indexing"></a>4.1 Robust Suffix Array-Based Indexing</h3><p>思想：将相似度高的后缀串对应的 block 合并起来。</p>
+<p>分析：match 的质量相对 Suffix Array-Based Indexing 较高，但是会导致大 block 的产生，代价变大。</p>
+<h3 id="5-Canopy-Clustering"><a href="#5-Canopy-Clustering" class="headerlink" title="5. Canopy Clustering"></a>5. Canopy Clustering</h3><p>思想：</p>
+<ul>
+<li>用 Canopy 聚类 (一种粗糙但快速的聚类算法) 对这些记录进行聚类。</li>
+<li>这里的 Canopy 聚类基于 tokens (一般是 BKV 的 q-gram)。</li>
+<li>计算距离可以用 TF-IDF/cosine 方法或者 Jaccard。</li>
+</ul>
+<h3 id="5-1-Threshold-Based-Approach"><a href="#5-1-Threshold-Based-Approach" class="headerlink" title="5.1 Threshold-Based Approach"></a>5.1 Threshold-Based Approach</h3><p>思想：</p>
+<p>比较原始的 Canopy Clustering 是一种 Threshold-Based Approach</p>
+<ul>
+<li><p>(1) 将数据集向量化得到一个list后放入内存，选择两个距离阈值：T1和T2，其中T1 &gt; T2，对应上图，实线圈为T1，虚线圈为T2，T1和T2的值可以用交叉校验来确定；</p>
+</li>
+<li><p>(2) 从list中任取一点P，用低计算成本方法快速计算点P与所有Canopy之间的距离（如果当前不存在Canopy，则把点P作为一个Canopy），如果点P与某个Canopy距离在T1以内，则将点P加入到这个Canopy；</p>
+</li>
+<li><p>(3) 如果点P曾经与某个Canopy的距离在T2以内，则需要把点P从list中删除，这一步是认为点P此时与这个Canopy已经够近了，因此它不可以再做其它Canopy的中心了；</p>
+</li>
+<li><p>重复步骤(2)、(3)，直到list为空结束。 </p>
+</li>
+</ul>
+<p>注意：Canopy聚类不要求指定簇中心的个数，中心的个数仅仅依赖于举例度量，T1和T2的选择。</p>
+<p><img src="/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.8.png" alt="Canopy Clustering"></p>
+<p>分析：</p>
+<ul>
+<li>算法的复杂度跟聚类的大小相关。</li>
+</ul>
+<h3 id="5-1-Threshold-Based-Approach-1"><a href="#5-1-Threshold-Based-Approach-1" class="headerlink" title="5.1 Threshold-Based Approach"></a>5.1 Threshold-Based Approach</h3><p>思想：</p>
+<p>Nearest Neighbor-Based Approach 是一种变种的 Canopy Clustering</p>
+<p>区别在于将 T1、T2 改成 N1、N2。N1 代表每次将距离最近的 N1 个记录划入聚类；N2 代表每次将距离最近的 N2 个记录从 list 中删除。</p>
+<p>分析：</p>
+<ul>
+<li>也有 Sorted Array-Based Neighborhood Indexing 类似的缺点。(固定聚类大小导致有的 matches 不能生成候选对。) </li>
+<li>匹配的效果比 Threshold-Based Approach 好，而且更鲁棒。</li>
+</ul>
+<h3 id="6-String-Map-Based-Indexing"><a href="#6-String-Map-Based-Indexing" class="headerlink" title="6. String-Map-Based Indexing"></a>6. String-Map-Based Indexing</h3><p>思想：</p>
+<p>String-Map-Based Indexing 将 BKV 映射到一个多维欧几里得空间，使得 string 之间的相似度可以用距离度量。然后使用合适的索引(例如 R-tree、grid-based index) 找出相似的 BKV。</p>
+<p>疑问1：如何映射。<br><img src="/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/string-map.png" alt="String Map Algorithm"></p>
+<p>疑问2：如何确定维度 d。<br><img src="/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/how-to-choose-demision-d.png" alt="Choosing Dimensionality d"></p>
+<p>疑问3：如何生成候选对。<br>方法的提出者使用方法的是构建两个 R-tree，然后同时自顶向下遍历这两个 R-tree，根据 R-tree 的性质即可找到候选对。</p>
+<p>文中提到，由于大部分基于树的索引在 d 增大时性能快速下降。本文使用了一种 grid-based index，将空间分块，在每个维度上分别建立倒排，使用类似 canopy 聚类的方式生成候选对。</p>
+<p>分析：</p>
+<p>文中还提到，有工作将坐标映射到2d平面中，然后使用 KD-tree 和 nearest neighbor-based similarity approach，可以减少 30% 到 60% 的耗时，并且准确性相当。</p>
+<h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2>
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 xiongjx751@qq.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="//cdn.jsdelivr.net/npm/mathjax@2.7.8/unpacked/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<input type="hidden" id="MathJax-js"
+        value="//cdn.jsdelivr.net/npm/mathjax@2.7.8/unpacked/MathJax.js?config=TeX-MML-AM_CHTML">
+</input>
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2023-2023 Jixiang Xiong
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/blogs/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/blogs/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
