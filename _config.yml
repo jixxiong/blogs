@@ -107,3 +107,19 @@ deploy:
   repo: https://github.com/jixxiong/blogs.git
   branch: gh-pages
 
+
+# Math Formulas Render Support
+math:
+  enable: true
+  # 默认加载mathjax,katex渲染
+  per_page: true
+  # 此选项开启表示每页博客是否使用mathjax是单独指定的。
+  # 单独指定需要公式渲染的博客，可以提高平均的加载速率。
+
+# hexo-renderer-pandoc (or hexo-renderer-kramed) required for full MathJax support.
+mathjax:
+   enable: true
+   # See: https://mhchem.github.io/MathJax-mhchem/
+   mhchem: false
+   # 这个化学公式的语法支持，读者可选。 $\ce{公式}$
+   # a third-party extension for MathJax
