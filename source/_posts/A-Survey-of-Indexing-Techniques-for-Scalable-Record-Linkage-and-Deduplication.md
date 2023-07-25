@@ -46,9 +46,6 @@ step 2. Indexing
 
 生成候选对，可以是在每个块内，分别用块内的记录生成候选对。
 
-
-<!-- 对姓名和地址使用字符串模糊匹配比较方法；对于包含日期、年龄和数值等数据的字段使用特别的比较方法；一般会以多个字段的聚合作为主键。 -->
-
 step 3. Record Pair Comparison
 对候选记录对进行分类，分成 matches, non-matches, possible matches 三类
 
@@ -81,7 +78,7 @@ Traditional Blocking 的复杂度基本上由最大的那个 block 所决定。�
 
 ### 2.1 Sorted Array-Based Approach
 
-思想：Sorted Neighborhood Indexing 的一种方式，将 BKV 按照字典序排序，然后用一个大小为 w 的窗口去扫，每次往后移动 1 个记录。
+思想：Sorted Neighborhood Indexing 的一种方式，将记录按照 BKV 的字典序排序，然后用一个大小为 w 的窗口去扫，每次往后移动 1 个记录。
 
 ![Sorted Array-Based Approach](/blogs/pic/A-Survey-of-Indexing-Techniques-for-Scalable-Record-Linkage-and-Deduplication/fig.3.png)
 
@@ -123,7 +120,7 @@ Traditional Blocking 的复杂度基本上由最大的那个 block 所决定。�
 - 正确性高，比前两种方法生成的候选对的数量都多。
 - 但是复杂度更高。
 
-### 4. Suffix Array-Based Indexing
+### 4 Suffix Array-Based Indexing
  
 思想：和 Q-Gram-Based Indexing 类似，但是新的 key 是 BKV 的后缀。
 
@@ -138,7 +135,7 @@ Traditional Blocking 的复杂度基本上由最大的那个 block 所决定。�
 
 分析：match 的质量相对 Suffix Array-Based Indexing 较高，但是会导致大 block 的产生，代价变大。
 
-### 5. Canopy Clustering
+### 5 Canopy Clustering
 
 思想：
 
@@ -168,11 +165,11 @@ Traditional Blocking 的复杂度基本上由最大的那个 block 所决定。�
 
 - 算法的复杂度跟聚类的大小相关。
 
-### 5.1 Threshold-Based Approach
+### 5.2 Nearest Neighbor-Based Approach
 
 思想：
 
-Nearest Neighbor-Based Approach 是一种变种的 Canopy Clustering
+Nearest Neighbor-Based Approach 是一种变种的 Canopy Clustering.
 
 区别在于将 T1、T2 改成 N1、N2。N1 代表每次将距离最近的 N1 个记录划入聚类；N2 代表每次将距离最近的 N2 个记录从 list 中删除。
 
@@ -180,7 +177,7 @@ Nearest Neighbor-Based Approach 是一种变种的 Canopy Clustering
 - 也有 Sorted Array-Based Neighborhood Indexing 类似的缺点。(固定聚类大小导致有的 matches 不能生成候选对。) 
 - 匹配的效果比 Threshold-Based Approach 好，而且更鲁棒。
 
-### 6. String-Map-Based Indexing
+### 6 String-Map-Based Indexing
 
 思想：
 
@@ -203,7 +200,7 @@ String-Map-Based Indexing 将 BKV 映射到一个多维欧几里得空间，使�
 
 ## Experiments
 
-
+TODO: finish this part
 
 
 

@@ -104,8 +104,13 @@ theme: yelog
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/jixxiong/blogs.git
+  repo: git@github.com:jixxiong/blogs.git
   branch: gh-pages
+  token: ''
+  name: jixxiong
+  email: xiongjx751@qq.com
+  ignore_hidden: false # default is true
+  ignore_pattern: regexp  # whatever file that matches the regexp will be ignored when deploying
 
 
 # Math Formulas Render Support
